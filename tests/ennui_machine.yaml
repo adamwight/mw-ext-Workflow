@@ -1,0 +1,35 @@
+# Common-sensical demonstration FSM
+title: Test Machine
+
+# FIXME: these PHP namespaces jump out like a second thumb, oh well.
+libraries:
+    - Workflow\Library\SelfStimulating
+    - Workflow\Tests\DoorLibrary
+
+states:
+    inside:
+        transitions:
+            walk: at_threshold
+            fidget: inside
+    at_threshold:
+        transitions:
+            open_door: at_liberty
+            return: inside
+            use_key: key_in_cylinder
+    key_in_cylinder:
+        actions:
+            lock:
+            signal: turned_key
+        transitions:
+            turned_key: at_threshold
+    at_liberty:
+        transitions:
+            exit: gone
+    gone:
+    trapped:
+
+exceptions:
+    give_up: trapped
+
+configuration:
+    door_locked: false
